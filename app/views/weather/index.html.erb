@@ -1,0 +1,105 @@
+<h1>Global Weather Forecast</h1>
+
+<% if @cache_cleared %>
+  <div class="alert alert-success">
+    ✅ Cache cleared successfully!
+  </div>
+<% end %>
+
+<%= form_with url: root_path, method: :get do |form| %>
+  <div class="field">
+    <%= form.label :zip_code, "ZIP Code" %>
+    <%= form.text_field :zip_code, 
+          value: @zip_code, 
+          required: true, 
+          placeholder: "Ex: 10001, 01310-000, 10115", 
+          class: "form-control" %>
+    <small class="help-text">Enter any ZIP code from around the world</small>
+  </div>
+  
+  <div class="button-group">
+    <%= form.submit "Get Forecast", class: "btn btn-primary" %>
+    
+    <% if @zip_code.present? %>
+      <%= link_to "Clear Cache", root_path(zip_code: @zip_code, clear_cache: true), 
+            class: "btn btn-secondary" %>
+    <% else %>
+      <%= link_to "Clear Cache", root_path(clear_cache: true), 
+            class: "btn btn-secondary" %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @forecast %>
+  <div class="results-section">
+    <% if @from_cache %>
+      <div class="alert alert-cache">
+        ⚡ <strong>FROM CACHE</strong> - This result was retrieved from cache (valid for 30 minutes)
+        <br><small>Timestamp: <%= @forecast[:timestamp]&.strftime("%Y-%m-%d %H:%M:%S") %></small>
+      </div>
+    <% else %>
+      <div class="alert alert-fresh">
+        🆕 <strong>FRESH DATA</strong> - This result was fetched live from the API
+        <br><small>Timestamp: <%= @forecast[:timestamp]&.strftime("%Y-%m-%d %H:%M:%S") %></small>
+      </div>
+    <% end %>
+
+    <% if @forecast[:error] %>
+      <div class="error-card">
+        <div class="error-content">
+          <h2><%= @forecast[:error] %></h2>
+          <% if @forecast[:details] %>
+            <p class="error-details"><%= @forecast[:details] %></p>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div class="weather-card">
+        <div class="weather-header">
+          <h2><%= @forecast[:city] %>, <%= @forecast[:country] %></h2>
+          <p class="zip-info">ZIP Code: <%= @forecast[:zip_code] %></p>
+        </div>
+        
+        <div class="weather-main">
+          <div class="current-temp">
+            <h3><%= @forecast[:current_temp] %>°C</h3>
+            <p class="description"><%= @forecast[:description] %></p>
+          </div>
+          
+          <div class="weather-details">
+            <div class="detail-item">
+              <span class="label">🔺 High:</span>
+              <span class="value"><%= @forecast[:high] %>°C</span>
+            </div>
+            
+            <div class="detail-item">
+              <span class="label">🔻 Low:</span>
+              <span class="value"><%= @forecast[:low] %>°C</span>
+            </div>
+            
+            <div class="detail-item">
+              <span class="label">💧 Humidity:</span>
+              <span class="value"><%= @forecast[:humidity] %>%</span>
+            </div>
+            
+            <div class="detail-item">
+              <span class="label">💨 Wind:</span>
+              <span class="value"><%= @forecast[:wind_speed] %> m/s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if Rails.env.development? %>
+  <div class="debug-info">
+    <h4>Debug Info:</h4>
+    <p>zip_code: <%= @zip_code %></p>
+    <p>from_cache: <%= @from_cache %></p>
+    <% if @zip_code %>
+      <p>Cache exists: <%= Rails.cache.exist?("weather_#{@zip_code}") %></p>
+    <% end %>
+  </div>
+<% end %>
