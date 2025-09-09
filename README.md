@@ -2,8 +2,8 @@
 
 A Ruby on Rails application that provides weather forecasts for any ZIP code worldwide using the OpenWeatherMap API.
 
-![Weather App Screenshot](![alt text](image.png))
-![Cache Cleared Screenshot](![alt text](image-1.png))
+Weather App Screenshot image.png
+Cache Cleared Screenshot image-1.png
 
 ## ✨ Features
 
