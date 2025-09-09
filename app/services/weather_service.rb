@@ -10,14 +10,12 @@ class WeatherService
   end
 
   def get_forecast_by_zip(zip_code)
-    # Use a simple, consistent cache key
     cache_key = "weather_#{zip_code}"
     
     puts "=== CACHE DEBUG ==="
     puts "Cache key: #{cache_key}"
     puts "Cache exists?: #{Rails.cache.exist?(cache_key)}"
     
-    # Check if cached data exists
     cached_data = Rails.cache.read(cache_key)
     
     if cached_data
@@ -27,7 +25,6 @@ class WeatherService
     
     puts "❌ NO CACHE, FETCHING FROM API"
     
-    # Fetch from API (simplified for testing)
     forecast = fetch_from_api(zip_code, 'US')
     
     if forecast && !forecast[:error]

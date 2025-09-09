@@ -1,24 +1,37 @@
-# README
+# 🌤️ Global Weather Forecast App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A Ruby on Rails application that provides weather forecasts for any ZIP code worldwide using the OpenWeatherMap API.
 
-Things you may want to cover:
+![Weather App Screenshot](Screenshot%20at%202025-09-09%2013-56-28.png)
+![Cache Cleared Screenshot](Screenshot%20at%202025-09-09%2013-56-46.png)
 
-* Ruby version
+## ✨ Features
 
-* System dependencies
+- **Global ZIP Code Support**: Get weather data for any ZIP code worldwide
+- **Smart Caching**: Automatic 30-minute caching to reduce API calls
+- **Cache Indicators**: Visual indicators showing when data comes from cache vs fresh API data
+- **Cache Management**: One-click cache clearing functionality
+- **Responsive Design**: Clean, user-friendly interface
 
-* Configuration
+## 🚀 Getting Started
 
-* Database creation
+### Prerequisites
 
-* Database initialization
+- Ruby 3.0+
+- Rails 7.0+
+- OpenWeatherMap API account
 
-* How to run the test suite
+### Step 1: Get OpenWeatherMap API Key
 
-* Services (job queues, cache servers, search engines, etc.)
+1. Visit [OpenWeatherMap](https://openweathermap.org/api)
+2. Create a free account
+3. Navigate to API Keys section
+4. Generate a new API key or use your default key
 
-* Deployment instructions
+### Step 2: Set Up API Key in Rails
 
-* ...
+Add your API key to Rails credentials:
+
+```bash
+# Edit credentials (will open in your default editor)
+EDITOR="code --wait" rails credentials:edit
